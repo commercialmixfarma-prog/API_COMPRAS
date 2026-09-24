@@ -1,0 +1,7 @@
+Ambiente de preparacao (23/09/2026):
+- Node 20.20.2 (alvo de producao: Node 24 Alpine, conforme Dockerfile/engines). 17 testes passaram (npm test), banco simulado, nenhuma conexao SQL.
+- Consultas geradas (consulta-lotes.sql e consulta-resumo.sql) parseadas como T-SQL sem erro (sqlglot). Parse nao substitui execucao no SQL Server real.
+- package-lock.json regenerado para o novo nome de pacote com as mesmas dependencias da API_GERAL 1.1.1.
+- YAML da stack: somente servico api; bind loopback 127.0.0.1:3001; sem env_file; TLS SQL true; pool 2; 2 consultas simultaneas; 100 req/min; timeout SQL 120 s.
+- Dockerfile: Node 24 Alpine, npm ci com lock, USER node, healthcheck em /health porta 3001.
+NAO executados aqui: docker build, deploy Portainer, consulta ao SQL Server real, checagens de duplicidade, medicao de volume/duracao de NextLotes.

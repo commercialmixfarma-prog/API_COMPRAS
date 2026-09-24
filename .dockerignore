@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+logs
+*.log
+.env
+.env.*
+.git
+.gitignore
+README.md
+docs
+tests
+validacao
+*.zip
+
+env.*
+*.md
+MANIFEST.sha256

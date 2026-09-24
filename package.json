@@ -1,0 +1,35 @@
+{
+  "name": "mix-corporativo-estoque-lotes-api",
+  "version": "1.0.0",
+  "description": "API de leitura: estoque por lote (NextLotes) do SQL Server corporativo para sistemas consumidores, sem PostgreSQL e sem ETL.",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "node --test tests/*.test.js",
+    "test:connection": "node src/scripts/testConnection.js",
+    "auth:hash": "node src/scripts/gerarHashSenha.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mssql": "^11.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "helmet": "^8.0.0",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.4.1",
+    "dotenv": "^16.4.5",
+    "winston": "^3.15.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "express-validator": "^7.2.0",
+    "compression": "^1.7.4",
+    "decimal.js": "^10.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

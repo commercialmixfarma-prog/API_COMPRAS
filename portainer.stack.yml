@@ -1,0 +1,52 @@
+
+services:
+  api:
+    image: ${API_IMAGE:-mix-corporativo-estoque-lotes-api:1.0.0}
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 150s
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      TZ: America/Fortaleza
+      LOG_LEVEL: "${LOG_LEVEL:-info}"
+      SERVICE_CLIENT_ID: "${SERVICE_CLIENT_ID:?Preencha SERVICE_CLIENT_ID}"
+      SERVICE_CLIENT_SECRET: "${SERVICE_CLIENT_SECRET:?Preencha o hash bcrypt}"
+      JWT_SECRET: "${JWT_SECRET:?Preencha JWT_SECRET (distinto do usado na API de vendas)}"
+      JWT_EXPIRES_IN: "${JWT_EXPIRES_IN:-1h}"
+      SQLSERVER_HOST: "${SQLSERVER_HOST:?Preencha o destino acessivel do container na VPS}"
+      SQLSERVER_PORT: "${SQLSERVER_PORT:?Preencha a porta confirmada pelo TI para a VPS}"
+      SQLSERVER_USER: "${SQLSERVER_USER:?Preencha SQLSERVER_USER}"
+      SQLSERVER_PASSWORD: "${SQLSERVER_PASSWORD:?Preencha SQLSERVER_PASSWORD}"
+      SQLSERVER_DATABASE: "${SQLSERVER_DATABASE:-master}"
+      SQLSERVER_AL_DATABASE: "${SQLSERVER_AL_DATABASE:-MIX-AL}"
+      SQLSERVER_SE_DATABASE: "${SQLSERVER_SE_DATABASE:-MIX-SE}"
+      SQLSERVER_ENCRYPT: "true"
+      SQLSERVER_CONNECTION_TIMEOUT_MS: "${SQLSERVER_CONNECTION_TIMEOUT_MS:-30000}"
+      # Consulta sem recorte de data e com 8 LEFT JOIN: prazo maior que o da API de vendas.
+      SQLSERVER_REQUEST_TIMEOUT_MS: "${SQLSERVER_REQUEST_TIMEOUT_MS:-120000}"
+      SQLSERVER_POOL_MAX: "2"
+      API_DEFAULT_PAGE_SIZE: "${API_DEFAULT_PAGE_SIZE:-5000}"
+      API_MAX_PAGE_SIZE: "${API_MAX_PAGE_SIZE:-20000}"
+      API_MAX_CONCURRENT_READS: "2"
+      RATE_LIMIT_WINDOW_MS: "60000"
+      RATE_LIMIT_MAX: "100"
+      LOGIN_RATE_LIMIT_MAX: "5"
+      TRUST_PROXY_HOPS: "${TRUST_PROXY_HOPS:-0}"
+      CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS:-}"
+    # Restrito ao host da VPS. Nao publicar HTTP autenticado na Internet.
+    ports:
+      - "127.0.0.1:3001:3001"
+    volumes:
+      - estoque-api-logs:/app/logs
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  estoque-api-logs:

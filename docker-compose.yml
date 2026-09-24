@@ -1,0 +1,32 @@
+# Docker Standalone / Compose. Nao iniciar outra copia da mesma API via stack ao mesmo tempo.
+# Porta 3001 para conviver com a API de vendas (mix-corporativo-api, porta 3000) na mesma VPS.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mix-corporativo-estoque-lotes-api:1.0.0
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 150s
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      TZ: America/Fortaleza
+    ports:
+      - "127.0.0.1:3001:3001"
+    volumes:
+      - estoque-api-logs:/app/logs
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  estoque-api-logs:
