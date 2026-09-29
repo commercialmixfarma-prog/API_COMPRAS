@@ -9,6 +9,7 @@ const {generalLimiter}=require('./middleware/rateLimiter');
 const {errorHandler,notFoundHandler}=require('./middleware/errorHandler');
 const {closeAllPools}=require('./config/sqlServer');
 
+
 function createApp() {
   const app=express();
   app.disable('x-powered-by');
@@ -28,6 +29,7 @@ function createApp() {
   });
   app.use('/auth',require('./routes/auth'));
   app.use('/estoque',require('./routes/estoque'));
+  app.use('/simulador', require('./routes/simulador'));
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
