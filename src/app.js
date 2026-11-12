@@ -30,6 +30,11 @@ function createApp() {
   app.use('/auth',require('./routes/auth'));
   app.use('/estoque',require('./routes/estoque'));
   app.use('/simulador', require('./routes/simulador'));
+  app.use('/contaspagar', require('./routes/contasPagar'));
+  app.use('/pedidoscompra', require('./routes/pedidosCompra'));
+  app.use('/incineracao', require('./routes/incineracao'));
+    app.use('/incineracaoCompra', require('./routes/incineracaoCompra'));
+
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
@@ -68,3 +73,5 @@ if(require.main===module) start().catch(err=>{
   process.exitCode=1;
 });
 module.exports={createApp,start};
+
+
